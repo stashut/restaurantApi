@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace restaurantApi.Models
 {
-    public class OrderDetails
+    public class OrderDetail
     {
         [Key] public long OrderDetailId { get; set; }
         
@@ -10,7 +10,7 @@ namespace restaurantApi.Models
         public OrderMaster OrderMaster { get; set; }
 
         public int FoodItemId { get; set; }
-        public FoodItems FoodItem { get; set; }
+        public FoodItem FoodItem { get; set; }
 
         public decimal FoodItemPrice { get; set; }
         

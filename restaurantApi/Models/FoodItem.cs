@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace restaurantApi.Models
 {
-    public class FoodItems
+    public class FoodItem
     { 
         [Key] 
         public int FoodItemId { get; set; }
