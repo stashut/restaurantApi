@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -19,6 +20,8 @@ namespace restaurantApi.Models
         public string PaymentMethod { get; set; }
 
         public decimal GrandTotal { get; set; }
+
+        public List<OrderDetail> OrderDetails { get; set; }
         
     }
 }
