@@ -8,7 +8,7 @@ namespace restaurantApi.Models
         [Key]
         public int CustomerId { get; set; }
         
-        [Column(TypeName = "nvarchar(100")]
+        [Column(TypeName = "nvarchar(100)")]
         public string CustomerName { get; set; }
     }
 }
