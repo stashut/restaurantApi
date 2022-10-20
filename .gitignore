@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 
+*.obj
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -213,7 +214,13 @@ csx/
 # Microsoft Azure Emulator
 ecf/
 rcf/
-
+*.obj/
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
 # Windows Store app package directories and files
 AppPackages/
 BundleArtifacts/
