@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
 import Form from "../layouts/Form"
-import {Grid, InputAdornment, makeStyles} from "@material-ui/core";
+import {ButtonGroup, Button as MuiButton, Grid, InputAdornment, makeStyles} from "@material-ui/core";
 import { Input, Select, Button } from "../controls/Index"
+import ReplayIcon from '@material-ui/icons/Replay';
+import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
+import ReorderIcon from '@material-ui/icons/Reorder';
+
 
 const paymentMethods = [
     {id:'none', title:'Select'},
@@ -15,6 +19,17 @@ const useStyles = makeStyles(theme => ({
             color: '#f3b33d',
             fontWeight: 'bolder',
             fontSize: '1.5em'
+        }
+    },
+    submitButtonGroup: {
+        backgroundColor: '#f3b33d',
+        color: '#000',
+        margin: theme.spacing(1),
+        '& .MuiButton-label': {
+            textTransform: 'none'
+        },
+        '&:hover': {
+            backgroundColor: '#f3b33d',
         }
     }
 }))
@@ -65,6 +80,11 @@ function OrderForm(props) {
                             startAdornment: <InputAdornment className={classes.adornmentText} position="start">$</InputAdornment>
                         }}
                     />
+                    <ButtonGroup className={classes.submitButtonGroup}>
+                        <MuiButton size="large"  endIcon={<RestaurantMenuIcon />} type="submit">Submit</MuiButton>
+                        <MuiButton size="small" startIcon={<ReplayIcon />} />
+                    </ButtonGroup>
+                    <Button size='large' startIcon={<ReorderIcon />}>Orders</Button>
                 </Grid>
             </Grid>
         </Form>
