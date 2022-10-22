@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Form from "../layouts/Form"
-import {Grid} from "@material-ui/core";
+import {Grid, InputAdornment, makeStyles} from "@material-ui/core";
 import { Input, Select, Button } from "../controls/Index"
 
 const paymentMethods = [
@@ -9,9 +9,20 @@ const paymentMethods = [
     {id:'Card', title:'Card'},
 ]
 
+const useStyles = makeStyles(theme => ({
+    adornmentText: {
+        '& .MuiTypography-root': {
+            color: '#f3b33d',
+            fontWeight: 'bolder',
+            fontSize: '1.5em'
+        }
+    }
+}))
+
 function OrderForm(props) {
 
     const { values, errors, handleInputChange } = props;
+    const classes = useStyles();
     return (
         <Form>
             <Grid container>
@@ -21,6 +32,9 @@ function OrderForm(props) {
                         label="Order number"
                         name="orderNumber"
                         value={values.orderNumber}
+                        InputProps = {{
+                            startAdornment: <InputAdornment className={classes.adornmentText} position="start">#</InputAdornment>
+                        }}
                     />
                     <Select label="Customer"
                             name="customerId"
@@ -47,6 +61,9 @@ function OrderForm(props) {
                         label="Grand total"
                         name="grandTotal"
                         value={values.grandTotal}
+                        InputProps = {{
+                            startAdornment: <InputAdornment className={classes.adornmentText} position="start">$</InputAdornment>
+                        }}
                     />
                 </Grid>
             </Grid>
