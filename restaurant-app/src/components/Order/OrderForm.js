@@ -1,11 +1,11 @@
 import React from 'react';
+import Form from "../layouts/Form"
 
 function OrderForm(props) {
     return (
-        <form noValidate autoComplete="off">
-            <input />
-            <select />
-        </form>
+        <Form>
+            <input/>
+        </Form>
     );
 }
 
