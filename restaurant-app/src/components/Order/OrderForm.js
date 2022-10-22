@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Form from "../layouts/Form"
 import {Grid} from "@material-ui/core";
 import { Input, Select, Button } from "../controls/Index"
+import {useForm} from "../hooks/useForm";
 
 const paymentMethods = [
     {id:'none', title:'Select'},
@@ -22,20 +23,12 @@ const getFreshModelObject = () => ({
 
 function OrderForm(props) {
 
-    const [values, setValues] = useState(getFreshModelObject());
-
-    const handleInputChange = e => {
-        const {name, value} = e.target;
-        setValues({
-            ...values,
-            [name]: value
-            }
-        )
-    }
-
-    const resetFormControls = () => {
-        setValues(getFreshModelObject())
-    }
+    const {values,
+        setValues,
+        errors,
+        setErrors,
+        handleInputChange,
+        resetFormControls} = useForm(getFreshModelObject);
 
     return (
         <Form>
