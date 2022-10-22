@@ -22,7 +22,20 @@ const getFreshModelObject = () => ({
 
 function OrderForm(props) {
 
-    const [values, setValues] = useState(getFreshModelObject);
+    const [values, setValues] = useState(getFreshModelObject());
+
+    const handleInputChange = e => {
+        const {name, value} = e.target;
+        setValues({
+            ...values,
+            [name]: value
+            }
+        )
+    }
+
+    const resetFormControls = () => {
+        setValues(getFreshModelObject())
+    }
 
     return (
         <Form>
@@ -37,6 +50,7 @@ function OrderForm(props) {
                     <Select label="Customer"
                             name="customerId"
                             value={values.customerId}
+                            onChange={handleInputChange}
                             options={[
                                 {id:0, title: 'Select' },
                                 {id:1, title: 'Customer1' },
@@ -49,6 +63,7 @@ function OrderForm(props) {
                 <Grid item xs={6}>
                     <Select label="Payment Method"
                             name="paymentMethod"
+                            onChange={handleInputChange}
                             options={paymentMethods}
                             value={values.paymentMethods }
                     />
