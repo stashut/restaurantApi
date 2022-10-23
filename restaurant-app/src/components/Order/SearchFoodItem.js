@@ -72,7 +72,7 @@ function SearchFoodItem(props) {
             orderDetails: 0,
             foodItemId: foodItem.foodItemId,
             quantity: 1,
-            foodItemPrice: foodItem.foodItemPrice,
+            foodItemPrice: foodItem.price,
             foodItemName: foodItem.foodItemName
         }
         setValues({
@@ -98,7 +98,9 @@ function SearchFoodItem(props) {
                 {
                     searchList.map((item, index) => (
                         <ListItem
-                            key={index}>
+                            key={index}
+                            onClick={e=> addFoodItem(item)}
+                        >
                             <ListItemText
                                 primary={item.foodItemName}
                                 secondary={'$' + item.price} />
