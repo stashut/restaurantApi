@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme => ({
 
 function SearchFoodItem(props) {
 
-    const { addFoodItem } = props;
+    const { values, setValues } = props;
+    let orderedFoodItems = values.orderDetails;
 
     const [foodItems, setFoodItems] = useState([]);
     const [searchKey, setSearchKey] = useState('');
@@ -60,10 +61,25 @@ function SearchFoodItem(props) {
         let x = [...foodItems];
         x = x.filter(y => {
             return y.foodItemName.toLowerCase().includes(searchKey.toLowerCase())
+            && orderedFoodItems.every(item => item.foodItemId != y.foodItemId)
         });
         setSearchList(x);
-    }, [searchKey]);
-    
+    }, [searchKey, orderedFoodItems]);
+
+    const addFoodItem = foodItem => {
+        let x = {
+            orderMasterId: values.orderMasterId,
+            orderDetails: 0,
+            foodItemId: foodItem.foodItemId,
+            quantity: 1,
+            foodItemPrice: foodItem.foodItemPrice,
+            foodItemName: foodItem.foodItemName
+        }
+        setValues({
+            ...values,
+            orderDetails: [...values.orderDetails, x]
+        })
+    }
 
     return (
         <>

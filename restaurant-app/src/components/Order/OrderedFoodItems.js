@@ -1,10 +1,36 @@
 import React from 'react';
-import {IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Paper} from "@material-ui/core";
+import {
+    Button,
+    ButtonGroup,
+    IconButton,
+    List,
+    ListItem,
+    ListItemSecondaryAction,
+    ListItemText,
+    Paper
+} from "@material-ui/core";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 
 function OrderedFoodItems(props) {
 
-    const {orderedFoodItems, removeFoodItem} = props
+    const { values, setValues} = props
+
+    let orderedFoodItems = values.orderDetails;
+
+    const removeFoodItem = (index, id) => {
+        let x = {...values};
+        x.orderDetails = x.orderDetails.filter((_, i) => i != index)
+        setValues({...x});
+    }
+
+    const updateQuantity = (index, value) => {
+        let x = {...values};
+        let foodItem = x.orderDetails[index]
+        if (foodItem.quantity + value > 0) {
+           foodItem.quantity += value;
+            setValues({...x});
+        }
+    }
 
     return (
         <List>
@@ -21,6 +47,15 @@ function OrderedFoodItems(props) {
                                         fontSize: '1.2em'
                                     }
                                 }}
+                                secondary={
+                                    <>
+                                        <ButtonGroup size="small">
+                                            <Button onClick={e => updateQuantity(index, -1)}>-</Button>
+                                            <Button disabled>{item.quantity}</Button>
+                                            <Button onClick={e => updateQuantity(index, +1)}>+</Button>
+                                        </ButtonGroup>
+                                    </>
+                                }
                             />
                             <ListItemSecondaryAction>
                                 <IconButton
