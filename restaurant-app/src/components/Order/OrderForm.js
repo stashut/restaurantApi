@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Form from "../layouts/Form"
 import {ButtonGroup, Button as MuiButton, Grid, InputAdornment, makeStyles} from "@material-ui/core";
 import { Input, Select, Button } from "../controls/Index"
 import ReplayIcon from '@material-ui/icons/Replay';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import ReorderIcon from '@material-ui/icons/Reorder';
+import { createApiEndpoint, ENDPOINT } from '../../api/index'
 
 
 const paymentMethods = [
@@ -38,6 +39,22 @@ function OrderForm(props) {
 
     const { values, errors, handleInputChange } = props;
     const classes = useStyles();
+
+    const [customerList, setCustomerList] = useState([])
+
+    useEffect(() => {
+        createApiEndpoint(ENDPOINT.CUSTOMER).fetchAll()
+            .then(res => {
+                let customerList = res.data.map(item => ({
+                    id: item.customerId,
+                    title: item.customerName
+                }))
+                customerList = [{id:0, title: 'Select' },].concat(customerList);
+                setCustomerList(customerList);
+            })
+            .catch(err => console.log(err))
+    }, [])
+
     return (
         <Form>
             <Grid container>
@@ -55,13 +72,7 @@ function OrderForm(props) {
                             name="customerId"
                             value={values.customerId}
                             onChange={handleInputChange}
-                            options={[
-                                {id:0, title: 'Select' },
-                                {id:1, title: 'Customer1' },
-                                {id:2, title: 'Customer2' },
-                                {id:3, title: 'Customer3' },
-                                {id:4, title: 'Customer4' }
-                            ]}
+                            options={customerList}
                     />
                 </Grid>
                 <Grid item xs={6}>
