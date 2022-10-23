@@ -27,7 +27,7 @@ function Order(props) {
         <Grid container spacing="2">
             <Grid item xs={12}>
                 <OrderForm
-                    { ...{values, errors, handleInputChange}}
+                    { ...{values, setValues , errors, handleInputChange}}
                 />
             </Grid>
 

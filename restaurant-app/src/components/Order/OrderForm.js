@@ -6,6 +6,7 @@ import ReplayIcon from '@material-ui/icons/Replay';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import { createApiEndpoint, ENDPOINT } from '../../api/index'
+import {roundTo2DecimalPoint} from "../utils";
 
 
 const paymentMethods = [
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 
 function OrderForm(props) {
 
-    const { values, errors, handleInputChange } = props;
+    const { values, setValues ,errors, handleInputChange } = props;
     const classes = useStyles();
 
     const [customerList, setCustomerList] = useState([])
@@ -54,6 +55,16 @@ function OrderForm(props) {
             })
             .catch(err => console.log(err))
     }, [])
+
+    useEffect(() => {
+        let grandTotal = values.orderDetails.reduce((tempTotal, item) => {
+            return tempTotal + (item.quantity * item.foodItemPrice);
+        }, 0);
+        setValues({
+            ...values,
+            grandTotal: roundTo2DecimalPoint(grandTotal)
+        })
+    }, [JSON.stringify(values.orderDetails)])
 
     return (
         <Form>
