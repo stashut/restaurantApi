@@ -4,6 +4,7 @@ import {useForm} from "../hooks/useForm";
 import {Grid} from "@material-ui/core";
 import SearchFoodItem from "./SearchFoodItem";
 import OrderedFoodItems from "./OrderedFoodItems";
+import searchFoodItem from "./SearchFoodItem";
 
 const generateOrderNumber = () => Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -17,9 +18,25 @@ const getFreshModelObject = () => ({
     orderDetails: []
 })
 
+
 function Order(props) {
 
     const {values, setValues, errors, setErrors, handleInputChange, resetFormControls} = useForm(getFreshModelObject);
+
+    const addFoodItem = foodItem => {
+        let x = {
+            orderMasterId: values.orderMasterId,
+            orderDetails: 0,
+            foodItemId: foodItem.foodItemId,
+            quantity: 1,
+            foodItemPrice: foodItem.foodItemPrice,
+            foodItemName: foodItem.foodItemName
+        }
+        setValues({
+            ...values,
+            orderDetails: [...values.orderDetails, x]
+        })
+    }
 
     return (
         <Grid container>
@@ -30,7 +47,9 @@ function Order(props) {
             </Grid>
 
             <Grid item xs={6}>
-                <SearchFoodItem />
+                <SearchFoodItem
+                    {...{addFoodItem}}
+                />
             </Grid>
             <Grid item xs={6}>
                 <OrderedFoodItems />

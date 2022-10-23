@@ -1,8 +1,10 @@
 import React from 'react';
 import {useState, useEffect} from "react";
 import {createApiEndpoint, ENDPOINT} from "../../api";
-import {IconButton, InputBase, List, ListItem, ListItemText, Paper, makeStyles} from "@material-ui/core";
+import {IconButton, InputBase, List, ListItem, ListItemText, Paper, makeStyles, ListItemSecondaryAction } from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
+import PlusOneIcon from "@material-ui/icons/PlusOne";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
 const useStyles = makeStyles(theme => ({
     searchPaper: {
@@ -13,10 +15,32 @@ const useStyles = makeStyles(theme => ({
     searchInput: {
         marginLeft: theme.spacing(1.5),
         flex: 1,
+    },
+    listRoot: {
+        marginTop: theme.spacing(1),
+        maxHeight: 450,
+        overflow: 'auto',
+        '& li:hover': {
+            cursor: 'pointer',
+            backgroundColor: '#E3E3E3'
+        },
+        '& li:hover .MuiButtonBase-root': {
+            display: 'block',
+            color: '#000',
+        },
+        '& .MuiButtonBase-root': {
+            display: 'none'
+        },
+        '& .MuiButtonBase-root:hover': {
+            backgroundColor: 'transparent'
+        },
+
     }
 }))
 
 function SearchFoodItem(props) {
+
+    const { addFoodItem } = props;
 
     const [foodItems, setFoodItems] = useState([]);
     const [searchKey, setSearchKey] = useState('');
@@ -54,15 +78,21 @@ function SearchFoodItem(props) {
                     <SearchTwoToneIcon/>
                 </IconButton>
             </Paper>
-            <List>
+            <List className={classes.listRoot}>
                 {
                     searchList.map((item, index) => (
                         <ListItem
                             key={index}>
                             <ListItemText
                                 primary={item.foodItemName}
-                                secondary={'$' + item.price}
-                            />
+                                secondary={'$' + item.price} />
+                            <ListItemSecondaryAction>
+                                <IconButton onClick={e=> addFoodItem(item)}>
+                                    <PlusOneIcon />
+                                    <ArrowForwardIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+
                         </ListItem>
                     ))
                 }
