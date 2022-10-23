@@ -38,6 +38,12 @@ function Order(props) {
         })
     }
 
+    const removeFoodItem = (index, id) => {
+        let x = {...values};
+        x.orderDetails = x.orderDetails.filter((_, i) => i != index)
+        setValues({...x});
+    }
+
     return (
         <Grid container spacing="2">
             <Grid item xs={12}>
@@ -53,7 +59,7 @@ function Order(props) {
             </Grid>
             <Grid item xs={6}>
                 <OrderedFoodItems
-                    {...{orderedFoodItems: values.orderDetails}}/>
+                    {...{orderedFoodItems: values.orderDetails, removeFoodItem}}/>
             </Grid>
         </Grid>
     );

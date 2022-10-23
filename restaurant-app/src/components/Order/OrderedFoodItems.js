@@ -1,9 +1,10 @@
 import React from 'react';
-import {List, ListItem, ListItemText, Paper} from "@material-ui/core";
+import {IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Paper} from "@material-ui/core";
+import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 
 function OrderedFoodItems(props) {
 
-    const {orderedFoodItems} = props
+    const {orderedFoodItems, removeFoodItem} = props
 
     return (
         <List>
@@ -21,6 +22,14 @@ function OrderedFoodItems(props) {
                                     }
                                 }}
                             />
+                            <ListItemSecondaryAction>
+                                <IconButton
+                                    disableRipple
+                                    onClick={e => removeFoodItem(index, item.orderDetailsId)}
+                                >
+                                    <DeleteTwoToneIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
                         </ListItem>
                     </Paper>
                 ))
