@@ -24,7 +24,9 @@ namespace restaurantApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderMaster>>> GetOrderMasters()
         {
-            return await _context.OrderMasters.ToListAsync();
+            return await _context.OrderMasters
+                .Include(x => x.Customer)
+                .ToListAsync();
         }
 
         // GET: api/Order/5
