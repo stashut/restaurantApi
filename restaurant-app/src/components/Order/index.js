@@ -39,7 +39,7 @@ function Order(props) {
     }
 
     return (
-        <Grid container>
+        <Grid container spacing="2">
             <Grid item xs={12}>
                 <OrderForm
                     { ...{values, errors, handleInputChange}}
@@ -52,7 +52,8 @@ function Order(props) {
                 />
             </Grid>
             <Grid item xs={6}>
-                <OrderedFoodItems />
+                <OrderedFoodItems
+                    {...{orderedFoodItems: values.orderDetails}}/>
             </Grid>
         </Grid>
     );
