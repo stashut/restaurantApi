@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 
 function OrderForm(props) {
 
-    const { values, setValues ,errors, handleInputChange } = props;
+    const { values, setValues ,errors, setErrors,  handleInputChange, resetFormControls } = props;
     const classes = useStyles();
 
     const [customerList, setCustomerList] = useState([])
@@ -66,8 +66,27 @@ function OrderForm(props) {
         })
     }, [JSON.stringify(values.orderDetails)])
 
+    const validateForm = () => {
+        let temp = {};
+        temp.customerId = values.customerId != 0 ? "" : "This field is required";
+        temp.paymentMethod = values.paymentMethod != "none" ? "" : "This field is required";
+        temp.orderDetails = values.orderDetails.length != 0 ? "" : "This field is required";
+        setErrors({...temp});
+        return Object.values(temp).every(x => x === "")
+    }
+    const submitOrder = e => {
+        e.preventDefault();
+        if (validateForm()){
+            createApiEndpoint(ENDPOINT.ORDER).create(values)
+                .then(res => {
+                    resetFormControls();
+                })
+                .catch(err => console.log(err));
+        }
+    }
+
     return (
-        <Form>
+        <Form onSubmit={submitOrder}>
             <Grid container>
                 <Grid item xs={6}>
                     <Input
@@ -84,14 +103,16 @@ function OrderForm(props) {
                             value={values.customerId}
                             onChange={handleInputChange}
                             options={customerList}
+                            error={errors.customerId}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <Select label="Payment Method"
                             name="paymentMethod"
+                            value={values.paymentMethod}
                             onChange={handleInputChange}
                             options={paymentMethods}
-                            value={values.paymentMethods }
+                            error={errors.paymentMethod}
                     />
                     <Input
                         disabled

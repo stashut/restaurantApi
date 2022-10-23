@@ -73,8 +73,19 @@ function OrderedFoodItems(props) {
 
     return (
         <List>
-            {
-                orderedFoodItems.map((item, index) => (
+            {orderedFoodItems.length == 0 ?
+                <ListItem>
+                    <ListItemText
+                        primary="Please select food items"
+                        primaryTypographyProps={{
+                            style: {
+                                textAlign: 'center',
+                                fontStyle: 'italic'
+                            }
+                        }}
+                        />
+                </ListItem>
+                : orderedFoodItems.map((item, index) => (
                     <Paper key={index} className={classes.paperRoot}>
                         <ListItem>
                             <ListItemText
