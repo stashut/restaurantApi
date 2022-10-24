@@ -9,6 +9,7 @@ import {createApiEndpoint, ENDPOINT} from '../../api/index'
 import {roundTo2DecimalPoint} from "../utils";
 import Popup from "../layouts/Popup";
 import OrderList from "./OrderList";
+import Notification from "../layouts/Notification";
 
 
 const paymentMethods = [
@@ -46,6 +47,7 @@ function OrderForm(props) {
     const [customerList, setCustomerList] = useState([]);
     const [orderListVisibility, setOrderListVisibility] = useState(false);
     const [orderId, setOrderId] = useState(0);
+    const [notify, setNotify] = useState({isOpen: false});
 
     useEffect(() => {
         createApiEndpoint(ENDPOINT.CUSTOMER).fetchAll()
@@ -91,6 +93,12 @@ function OrderForm(props) {
         setErrors({...temp});
         return Object.values(temp).every(x => x === "")
     }
+
+    const resetForm = () => {
+        resetFormControls();
+        setOrderId(0);
+    }
+
     const submitOrder = e => {
         e.preventDefault();
         if (validateForm()) {
@@ -98,6 +106,7 @@ function OrderForm(props) {
                 createApiEndpoint(ENDPOINT.ORDER).create(values)
                     .then(res => {
                         resetFormControls();
+                        setNotify({isOpen: true, message: "New order is created."})
                     })
                     .catch(err => console.log(err));
             }
@@ -105,6 +114,7 @@ function OrderForm(props) {
                 createApiEndpoint(ENDPOINT.ORDER).update(values.orderMasterId,values)
                     .then(res => {
                         setOrderId(0);
+                        setNotify({isOpen: true, message:"The order is updated."})
                     })
                     .catch(err => console.log(err));
             }
@@ -158,7 +168,11 @@ function OrderForm(props) {
                         />
                         <ButtonGroup className={classes.submitButtonGroup}>
                             <MuiButton size="large" endIcon={<RestaurantMenuIcon/>} type="submit">Submit</MuiButton>
-                            <MuiButton size="small" startIcon={<ReplayIcon/>}/>
+                            <MuiButton
+                                size="small"
+                                startIcon={<ReplayIcon/>}
+                                onClick={resetForm}
+                            />
                         </ButtonGroup>
                         <Button
                             size='large'
@@ -174,6 +188,8 @@ function OrderForm(props) {
                 setOpenPopup={setOrderListVisibility}>
                 <OrderList {...{setOrderId, setOrderListVisibility, resetFormControls}}/>
             </Popup>
+            <Notification
+                {...{notify, setNotify}}/>
         </>
     )
 }
