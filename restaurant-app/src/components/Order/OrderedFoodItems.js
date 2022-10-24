@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-    Button,
-    ButtonGroup,
-    IconButton,
-    List,
-    ListItem,
-    ListItemSecondaryAction,
-    ListItemText,
-    Paper,
-    makeStyles
-} from "@material-ui/core";
+import { Button, ButtonGroup, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Paper, makeStyles } from "@material-ui/core";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import {roundTo2DecimalPoint} from "../utils";
 
@@ -59,6 +49,8 @@ function OrderedFoodItems(props) {
     const removeFoodItem = (index, id) => {
         let x = {...values};
         x.orderDetails = x.orderDetails.filter((_, i) => i != index)
+        if (id != 0)
+            x.deletedOrderItemIds += + id + ','
         setValues({...x});
     }
 
@@ -120,7 +112,7 @@ function OrderedFoodItems(props) {
                                 className={classes.deleteButton}>
                                 <IconButton
                                     disableRipple
-                                    onClick={e => removeFoodItem(index, item.orderDetailsId)}
+                                    onClick={e => removeFoodItem(index, item.orderDetailId)}
                                 >
                                     <DeleteTwoToneIcon />
                                 </IconButton>

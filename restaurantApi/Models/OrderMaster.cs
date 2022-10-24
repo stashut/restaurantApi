@@ -7,21 +7,19 @@ namespace restaurantApi.Models
 {
     public class OrderMaster
     {
-        [Key] 
-        public long OrderMasterId { get; set; }
-        
-        [Column(TypeName = "nvarchar(75)")]
-        public string OrderNumber { get; set; }
+        [Key] public long OrderMasterId { get; set; }
+
+        [Column(TypeName = "nvarchar(75)")] public string OrderNumber { get; set; }
 
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
 
-        [Column(TypeName = "nvarchar(10)")]
-        public string PaymentMethod { get; set; }
+        [Column(TypeName = "nvarchar(10)")] public string PaymentMethod { get; set; }
 
         public decimal GrandTotal { get; set; }
 
         public List<OrderDetail> OrderDetails { get; set; }
-        
+
+        [NotMapped] public string DeletedOrderItemIds { get; set; }
     }
 }

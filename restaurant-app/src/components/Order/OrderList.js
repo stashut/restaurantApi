@@ -6,6 +6,8 @@ import DeleteOutlineTwoToneIcon from "@material-ui/icons/DeleteOutlineTwoTone";
 
 function OrderList(props) {
 
+    const {setOrderId, setOrderListVisibility} = props;
+
     const [orderList, setOrderList] = useState([]);
     useEffect(() => {
         createApiEndpoint(ENDPOINT.ORDER).fetchAll()
@@ -14,6 +16,11 @@ function OrderList(props) {
             })
             .catch(err => console.log(err));
     }, []);
+
+    const showForUpdate = id => {
+        setOrderId(id);
+        setOrderListVisibility(false);
+    }
     
     return (
         <Table>
@@ -30,16 +37,20 @@ function OrderList(props) {
                 {
                     orderList.map(item => (
                         <TableRow key={item.orderMasterId}>
-                            <TableCell>
+                            <TableCell
+                                onClick={e => showForUpdate(item.orderMasterId)}>
                                 {item.orderNumber}
                             </TableCell>
-                            <TableCell>
+                            <TableCell
+                                onClick={e => showForUpdate(item.orderMasterId)}>
                                 {item.customer.customerName}
                             </TableCell>
-                            <TableCell>
+                            <TableCell
+                                onClick={e => showForUpdate(item.orderMasterId)}>
                                 {item.paymentMethod}
                             </TableCell>
-                            <TableCell>
+                            <TableCell
+                                onClick={e => showForUpdate(item.orderMasterId)}>
                                 {item.grandTotal}
                             </TableCell>
                             <TableCell>

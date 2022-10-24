@@ -45,6 +45,7 @@ function OrderForm(props) {
 
     const [customerList, setCustomerList] = useState([]);
     const [orderListVisibility, setOrderListVisibility] = useState(false);
+    const [orderId, setOrderId] = useState(0);
 
     useEffect(() => {
         createApiEndpoint(ENDPOINT.CUSTOMER).fetchAll()
@@ -53,7 +54,7 @@ function OrderForm(props) {
                     id: item.customerId,
                     title: item.customerName
                 }))
-                customerList = [{id: 0, title: 'Select'},].concat(customerList);
+                customerList = [{id: 0, title: 'Select'}].concat(customerList);
                 setCustomerList(customerList);
             })
             .catch(err => console.log(err))
@@ -69,6 +70,19 @@ function OrderForm(props) {
         })
     }, [JSON.stringify(values.orderDetails)])
 
+    useEffect(() => {
+        if (orderId == 0) resetFormControls()
+        else {
+            createApiEndpoint(ENDPOINT.ORDER).fetchById(orderId)
+                .then(res => {
+                    setValues(res.data);
+                    setErrors({});
+                })
+                .catch(err => console.log(err));
+        }
+    }, [orderId]);
+    
+
     const validateForm = () => {
         let temp = {};
         temp.customerId = values.customerId != 0 ? "" : "This field is required";
@@ -80,11 +94,20 @@ function OrderForm(props) {
     const submitOrder = e => {
         e.preventDefault();
         if (validateForm()) {
-            createApiEndpoint(ENDPOINT.ORDER).create(values)
-                .then(res => {
-                    resetFormControls();
-                })
-                .catch(err => console.log(err));
+            if (values.orderMasterId == 0) {
+                createApiEndpoint(ENDPOINT.ORDER).create(values)
+                    .then(res => {
+                        resetFormControls();
+                    })
+                    .catch(err => console.log(err));
+            }
+            else {
+                createApiEndpoint(ENDPOINT.ORDER).update(values.orderMasterId,values)
+                    .then(res => {
+                        setOrderId(0);
+                    })
+                    .catch(err => console.log(err));
+            }
         }
     }
 
@@ -149,7 +172,7 @@ function OrderForm(props) {
                 title="List of Orders"
                 openPopup={orderListVisibility}
                 setOpenPopup={setOrderListVisibility}>
-                <OrderList/>
+                <OrderList {...{setOrderId, setOrderListVisibility, resetFormControls}}/>
             </Popup>
         </>
     )
