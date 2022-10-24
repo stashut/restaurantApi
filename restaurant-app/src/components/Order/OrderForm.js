@@ -186,7 +186,7 @@ function OrderForm(props) {
                 title="List of Orders"
                 openPopup={orderListVisibility}
                 setOpenPopup={setOrderListVisibility}>
-                <OrderList {...{setOrderId, setOrderListVisibility, resetFormControls}}/>
+                <OrderList {...{setOrderId, setOrderListVisibility, resetFormControls, setNotify}}/>
             </Popup>
             <Notification
                 {...{notify, setNotify}}/>
